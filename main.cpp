@@ -7,12 +7,17 @@
 #include <iomanip>
 
 #include "helpers.h"
+#include "grocery_store.h"
 
 using namespace std;
 
 int main() {
-  CLEAR_CONSOLE();
-  cout << "hello main" << endl;
+  int userInput;
+  GroceryStore store;
+
+  cin >> userInput;
+
+  cout << "user entered: " << userInput << endl;
 
   return 0;
 }
