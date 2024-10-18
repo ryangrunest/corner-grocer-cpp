@@ -9,15 +9,14 @@
 GroceryStore::GroceryStore() {
   CLEAR_CONSOLE(); // clear the console
 
-  std::cout << "Initializing Grocery Store" << std::endl;
-
-  this->DisplayMainMenu();
+  this->DisplayMainMenu(); // display main menu on init
 }
 
 // Display Main Menu
 void GroceryStore::DisplayMainMenu() {
-  CLEAR_CONSOLE();
+  CLEAR_CONSOLE(); // clear the console
 
+  // display the main menu
   std::cout << "********************************************************" << std::endl;
   std::cout << "********************** Main Menu ***********************" << std::endl;
   std::cout << "                                                        " << std::endl;
@@ -32,113 +31,117 @@ void GroceryStore::DisplayMainMenu() {
   return;
 }
 
+// display form input for adding an item, gets users input and adds to memory and db.
 void GroceryStore::DisplayAddItem() {
   std::string newItemName;
 
-  CLEAR_CONSOLE();
+  CLEAR_CONSOLE(); // clear the console
 
   std::cout << "Enter the name of an item you would like to add:" << std::endl;
 
-  std::cin >> newItemName;
+  std::cin >> newItemName; // get user input of item they want to add
 
-  this->AddItem(newItemName);
-  this->DisplaySingleItem(newItemName);
+  this->AddItem(newItemName); // add item
+  this->DisplaySingleItem(newItemName); // display count of item from memory
 
   return;
 }
 
+// prints a single item to the console
 void GroceryStore::DisplaySingleItem(std::string itemName) {
   std::list<GroceryItem>::iterator it;
 
-  for (it = this->items.begin(); it != this->items.end(); ++it) {
-    if (it->GetItemName() == itemName) {
-      std::cout << it->GetItemName() << " total: " << it->GetItemCount() << std::endl;
-      SLEEP(3);
+  for (it = this->items.begin(); it != this->items.end(); ++it) { // loop through list
+    if (it->GetItemName() == itemName) { // if the item name matches the item index
+      std::cout << it->GetItemName() << " total: " << it->GetItemCount() << std::endl; // display the total
+      SLEEP(3); // allow the user 3 seconds to read the total
 
-      break;
+      break; // don't need to keep looping. break it.
     }
   }
 }
 
+// prints the list of items and their counts to the console
 void GroceryStore::DisplayList() {
   std::list<GroceryItem>::iterator it;
 
-  CLEAR_CONSOLE();
+  CLEAR_CONSOLE(); // clean up the console
 
-  for (it = this->items.begin(); it != this->items.end(); ++it) {
-    std::cout << it->GetItemName() << ": " << it->GetItemCount() << "." << std::endl; 
+  for (it = this->items.begin(); it != this->items.end(); ++it) { // for each item in memory
+    std::cout << it->GetItemName() << ": " << it->GetItemCount() << "." << std::endl; // print the item and item count
   }
 
   std::cout << "Press enter to return to main form." << std::endl;
-  std::cin.ignore(2);
+  std::cin.ignore(2); // wait for user to press enter before going back to main menu
 
   return;
 }
 
+// prints the list of items as a histogram to the console
 void GroceryStore::DisplayHistogram() {
   std::list<GroceryItem>::iterator it;
 
-  CLEAR_CONSOLE();
+  CLEAR_CONSOLE(); // clean up the console
 
-  for (it = this->items.begin(); it != this->items.end(); ++it) {
-    std::cout << it->GetItemName() << " ";
+  for (it = this->items.begin(); it != this->items.end(); ++it) { // for each item in memory
+    std::cout << it->GetItemName() << " "; // print the item name
 
-    for (int i = 0; i < it->GetItemCount(); i++) {
-      std::cout << "*";
+    for (int i = 0; i < it->GetItemCount(); i++) { // for each item in the item count
+      std::cout << "*"; // print a star
     };
 
-    std::cout << std::endl;
+    std::cout << std::endl; // end the line
   }
 
   std::cout << "Press enter to return to main form." << std::endl;
-  std::cin.ignore(2);
+  std::cin.ignore(2); // wait for user to press enter before going back to main menu
 
   return;
 }
 
+// adds an item to the db. isInitalLoad is set to false by default
 void GroceryStore::AddItem(std::string itemName, bool isInitialLoad) {
   std::ofstream outFS; // output file stream
 
   std::list<GroceryItem>::iterator it;
   int itemAdded = false;
 
-  if (this->items.size() > 1) {
-    for (it = this->items.begin(); it != this->items.end(); ++it) {
-      if (it->GetItemName() == itemName) {
-        it->AddOneItemCount();
+  if (this->items.size() > 1) { // if there are any items in memory
+    for (it = this->items.begin(); it != this->items.end(); ++it) { // for each item in memory
+      if (it->GetItemName() == itemName) { // if the item names match
+        it->AddOneItemCount(); // don't add a new list item, just add the count
 
-        itemAdded = true;
+        itemAdded = true; // item was added
       }
     }
 
-    if (itemAdded == false) {
-      GroceryItem currentItem;
+    if (itemAdded == false) { // if item was not added
+      GroceryItem currentItem; // create new item
 
-      currentItem.SetItemName(itemName);
-      currentItem.AddOneItemCount();
+      currentItem.SetItemName(itemName); // set values
+      currentItem.AddOneItemCount(); // set values
 
-      this->items.push_back(currentItem);
+      this->items.push_back(currentItem); // append it to the list in memory
     }
-  } else {
-    GroceryItem currentItem;
+  } else { // don't need to loop, so add item to memory
+    GroceryItem currentItem; // create new item
 
-    currentItem.SetItemName(itemName);
-    currentItem.AddOneItemCount();
+    currentItem.SetItemName(itemName); // set values
+    currentItem.AddOneItemCount(); // set values
 
-    this->items.push_back(currentItem);
+    this->items.push_back(currentItem); // append it to the list in memory
   }
 
-  if (isInitialLoad) {
+  if (isInitialLoad) { // if part of the initial load from the db, don't want to duplicate data so exit
     return;
-  } else {
-    // need to add to data file
+  } else { // we need to add it to the data file
     outFS.open("frequency.dat", std::ios_base::app); // append instead of overwrite
 
-    if (!outFS.is_open()) {
+    if (!outFS.is_open()) { // oops
       std::cout << "Could not open data file to write new item." << std::endl;
       return;
     } else {
-      outFS << itemName << std::endl;
+      outFS << itemName << std::endl; // write to file
     }
   }
 }
