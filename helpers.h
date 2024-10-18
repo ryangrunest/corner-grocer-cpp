@@ -3,5 +3,6 @@
 
 void CLEAR_CONSOLE();
 void FIXED_FLOAT(double x);
+void SLEEP(int durationInSeconds);
 
 #endif
