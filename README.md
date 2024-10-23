@@ -2,6 +2,33 @@
 
 Project Submission for SNHU's CS210 - Programming Languages
 
+## Summarize the project and what problem it was solving.
+
+This project allows users to retrieve and update the frequency of grocery items in a grocery store. 
+
+## What did you do particularly well?
+
+One thing I feel like I did particularly well was keep the console clean throughout the program. The helper functions allowed me to hide old console outputs, making it feel more like a GUI.
+
+## Where could you enhance your code? How would these improvements make your code more efficient, secure, and so on?
+
+Instead of writing to a .dat file, I could implement a real database. I could also refactor and use a more modern UI, while refactoring the C++ application as an API.
+
+## Which pieces of the code did you find most challenging to write, and how did you overcome this? What tools or resources are you adding to your support network?
+
+User sanitization is the most difficult thing to write. There's still issues with this program. For example, the user could enter "guitar" or "car", items that are not found in a grocery store. One way around this would be to write a file that lists all available items, and checks the user's input against that list.
+
+## What skills from this project will be particularly transferable to other projects or course work?
+
+This project helped solidify my understanding of OOP. Going forward, I can use this project as a reference for code formatting and c++ syntax when writing future c++ programs.
+
+## How did you make this program maintainable, readable, and adaptable?
+
+- I wrote extensive comments within the code
+- I tried to make the program read as close to English as possible. 
+- I kept methods short in length, and made sure they only did 1 thing. If the method was too long, I would refactor and break it into multiple methods. 
+
+
 ## Scenario
 You are doing a fantastic job at Chada Tech in your new role as a junior developer, and you exceeded expectations in your last assignment for Airgead Banking. Since your team is impressed with your work, they have given you another, more complex assignment. Your task is to build an item-tracking program for the Corner Grocer, which should incorporate all of their requested functionality.
 
